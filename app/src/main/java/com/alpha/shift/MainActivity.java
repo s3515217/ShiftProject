@@ -3,7 +3,9 @@ package com.alpha.shift;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.icu.util.Calendar;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -20,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void showTimePickerOnClick(EditText textField) {
 
         startTimeText = (EditText) findViewById(R.id.TextTime);
@@ -63,8 +66,5 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_new_shift);
 
-
-
-        showTimePickerOnClick();
     }
 }
