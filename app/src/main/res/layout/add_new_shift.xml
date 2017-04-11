@@ -8,22 +8,22 @@
 
     <TextView
         android:id="@+id/textViewTime"
-        android:layout_width="50dp"
+        android:layout_width="80dp"
         android:layout_height="20dp"
-        android:text="Time"
         android:layout_alignBaseline="@+id/TextTime"
         android:layout_alignBottom="@+id/TextTime"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="20dp" />
+        android:layout_marginStart="20dp"
+        android:text="Start Time" />
 
     <TextView
         android:id="@+id/textView_Date"
-        android:layout_width="50dp"
+        android:layout_width="80dp"
         android:layout_height="20dp"
-        android:text="Date"
         android:layout_alignBaseline="@+id/TextDate"
         android:layout_alignBottom="@+id/TextDate"
-        android:layout_toStartOf="@+id/TextDate" />
+        android:layout_toStartOf="@+id/TextDate"
+        android:text="Date" />
 
     <EditText
         android:id="@+id/TextTime"
@@ -42,26 +42,25 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="date"
-        android:layout_below="@+id/TextTime"
-        android:layout_alignStart="@+id/TextTime"
-        android:layout_marginTop="95dp" />
+        android:layout_below="@+id/TextEndTime"
+        android:layout_alignStart="@+id/TextEndTime" />
 
     <EditText
         android:id="@+id/TextEndTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/TextTime"
-        android:layout_below="@+id/TextTime"
-        android:layout_marginTop="10dp"
         android:ems="10"
-        android:inputType="time" />
+        android:inputType="time"
+        android:layout_below="@+id/TextTime"
+        android:layout_alignStart="@+id/TextTime" />
 
     <TextView
         android:id="@+id/textViewEndTime"
-        android:layout_width="wrap_content"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/TextEndTime"
         android:layout_alignBottom="@+id/TextEndTime"
-        android:layout_alignStart="@+id/textViewTime"
+        android:layout_toStartOf="@+id/TextEndTime"
         android:text="End Time" />
 
     <android.support.design.widget.FloatingActionButton
