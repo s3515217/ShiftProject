@@ -19,7 +19,6 @@ import static java.lang.Integer.valueOf;
 
 public class AddShift extends AppCompatActivity {
 
-    EditText nameText = (EditText) findViewById(R.id.TextShiftName);
     EditText dateText, startTimeText, endTimeText;
     int hour_x, minute_x, day_x, month_x, year_x;
     int start_hour, start_minute, end_hour, end_minute;
@@ -118,7 +117,7 @@ public class AddShift extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_shift);
+        setContentView(R.layout.activity_add_shift);
 
         showTimePickerOnClick();
         saveButtonOnClick();
@@ -126,6 +125,7 @@ public class AddShift extends AppCompatActivity {
     }
 
     private void saveButtonOnClick() {
+        final EditText nameText = (EditText) findViewById(R.id.TextShiftName);
         Button saveButton = (Button) findViewById(R.id.btn_Save);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override

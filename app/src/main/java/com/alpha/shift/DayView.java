@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DayView extends AppCompatActivity {
@@ -17,17 +18,17 @@ public class DayView extends AppCompatActivity {
         setContentView(R.layout.activity_day_view);
 
         // Get a reference for the week view in the layout.
-         WeekView mWeekView = (WeekView) findViewById(R.id.weekView);
+         WeekView dayView = (WeekView) findViewById(R.id.dayView);
 
 // Set an action when any event is clicked.
-        mWeekView.setOnEventClickListener(mEventClickListener);
+        dayView.setOnEventClickListener(mEventClickListener);
 
 // The week view has infinite scrolling horizontally. We have to provide the events of a
 // month every time the month changes on the week view.
-        mWeekView.setMonthChangeListener(mMonthChangeListener);
+        dayView.setMonthChangeListener(mMonthChangeListener);
 
 // Set long press listener for events.
-        mWeekView.setEventLongPressListener(mEventLongPressListener);
+        dayView.setEventLongPressListener(mEventLongPressListener);
     }
 
     private WeekView.EventClickListener mEventClickListener
@@ -42,7 +43,9 @@ public class DayView extends AppCompatActivity {
             = new WeekView.MonthChangeListener() {
         @Override
         public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-            return null;
+            List<WeekViewEvent> list = new ArrayList<>();
+            list.add(new WeekViewEvent(1,"name",2017,6,15,6,30,2017,6,15,7,30));
+            return list;
         }
     };
 
