@@ -1,53 +1,55 @@
 package com.alpha.shift;
 
-import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.TextView;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
-public class CalendarView extends AppCompatActivity {
+public class MonthView extends AppCompatActivity {
 
     CompactCalendarView compactCalendar;
+    Date date = new Date();
+    TextView textBox;
     private SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MMMM- yyyy", Locale.getDefault());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.calendar_view);
+        setContentView(R.layout.activity_month_view);
+        textBox  = (TextView) findViewById(R.id.textView);
 
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setTitle(null);
+        actionBar.setTitle(dateFormatMonth.format(date));
 
         compactCalendar = (CompactCalendarView) findViewById(R.id.compactcalendar_view);
         compactCalendar.setUseThreeLetterAbbreviation(true);
 
-        //Set an event for Teachers' Professional Day 2016 which is 21st of October
-
-        Event ev1 = new Event(Color.RED, 1477040400000L, "Teachers' Professional Day");
+        Event ev1 = new Event(Color.RED,  1497484800000L, "Bill's Birthday");
         compactCalendar.addEvent(ev1);
+        Event ev2 = new Event(Color.RED,  1497484800000L, "Bill's  second Birthday");
+        compactCalendar.addEvent(ev2);
 
         compactCalendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
-                Context context = getApplicationContext();
-
-                if (dateClicked.toString().compareTo("Fri Oct 21 00:00:00 AST 2016") == 0) {
-                    Toast.makeText(context, "Teachers' Professional Day", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(context, "No Events Planned for that day", Toast.LENGTH_SHORT).show();
+                List<Event> events = compactCalendar.getEvents(dateClicked);
+                textBox.setText("");
+                for (int i = 0; i < events.size(); i++) {
+                    textBox.append(events.get(i).getData().toString() + "\n");
                 }
-
-
             }
 
             @Override
@@ -55,5 +57,18 @@ public class CalendarView extends AppCompatActivity {
                 actionBar.setTitle(dateFormatMonth.format(firstDayOfNewMonth));
             }
         });
+
+        addNewShiftButtonOnClick();
+    }
+
+    private void addNewShiftButtonOnClick() {
+        FloatingActionButton addButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MonthView.this,AddShift.class));
+            }
+        });
+
     }
 }

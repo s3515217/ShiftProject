@@ -6,18 +6,23 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import static java.lang.Integer.valueOf;
 
 public class AddShift extends AppCompatActivity {
 
-    EditText startTimeText, dateText, endTimeText;
+    EditText nameText = (EditText) findViewById(R.id.TextShiftName);
+    EditText dateText, startTimeText, endTimeText;
     int hour_x, minute_x, day_x, month_x, year_x;
+    int start_hour, start_minute, end_hour, end_minute;
 
     public void showTimePickerOnClick() {
         startTimeText = (EditText) findViewById(R.id.TextStartTime);
@@ -33,7 +38,7 @@ public class AddShift extends AppCompatActivity {
 
         endTimeText.setText("00:00");
         startTimeText.setText("00:00");
-        dateText.setText(day_x + "/" + valueOf(month_x+1) + "/" + year_x);
+        dateText.setText(day_x + "/" + valueOf(month_x + 1) + "/" + year_x);
 
         startTimeText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,15 +64,15 @@ public class AddShift extends AppCompatActivity {
 
     @Override
     protected Dialog onCreateDialog(int id) {
-     if (id == 1) {
-         return new TimePickerDialog(this,startTimePickerListener,hour_x,minute_x,false);
-     }
-     if (id == 2) {
-         return new TimePickerDialog(this,endTimePickerListener,hour_x,minute_x,false);
-     }
-     if (id == 3) {
-         return new DatePickerDialog(this,datePickerListener,year_x,month_x ,day_x);
-     }
+        if (id == 1) {
+            return new TimePickerDialog(this, startTimePickerListener, hour_x, minute_x, false);
+        }
+        if (id == 2) {
+            return new TimePickerDialog(this, endTimePickerListener, hour_x, minute_x, false);
+        }
+        if (id == 3) {
+            return new DatePickerDialog(this, datePickerListener, year_x, month_x, day_x);
+        }
         return null;
     }
 
@@ -75,8 +80,10 @@ public class AddShift extends AppCompatActivity {
             = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            hour_x=hourOfDay;
-            minute_x=minute;
+            hour_x = hourOfDay;
+            minute_x = minute;
+            start_hour = hourOfDay;
+            start_minute = minute;
             startTimeText.setText(hour_x + ":" + minute_x);
         }
     };
@@ -85,8 +92,10 @@ public class AddShift extends AppCompatActivity {
             = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            hour_x=hourOfDay;
-            minute_x=minute;
+            hour_x = hourOfDay;
+            minute_x = minute;
+            end_hour = hourOfDay;
+            end_minute = minute;
             endTimeText.setText(hour_x + ":" + minute_x);
         }
     };
@@ -95,10 +104,13 @@ public class AddShift extends AppCompatActivity {
             = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            day_x=dayOfMonth;
-            month_x=month+1;
-            year_x=year;
-            dateText.setText(day_x + "/" + month_x + "/" + year_x);
+
+            Calendar cal = Calendar.getInstance();
+            cal.set(year, month, dayOfMonth, 0, 0, 0);
+            long longDate = cal.getTimeInMillis();
+
+            SimpleDateFormat dFormat = new SimpleDateFormat("dd/MM/yyyy");
+            dateText.setText(dFormat.format(longDate));
         }
     };
 
@@ -109,5 +121,40 @@ public class AddShift extends AppCompatActivity {
         setContentView(R.layout.add_shift);
 
         showTimePickerOnClick();
+        saveButtonOnClick();
+        cancelButtonOnClick();
+    }
+
+    private void saveButtonOnClick() {
+        Button saveButton = (Button) findViewById(R.id.btn_Save);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Calendar start = Calendar.getInstance();
+                start.set(year_x,month_x,day_x,start_hour,start_minute);
+                Calendar end = Calendar.getInstance();
+                end.set(year_x,month_x,day_x,end_hour,end_minute);
+
+                Shift shift = new Shift(nameText.getText().toString(), start, end);
+
+                ArrayList<Shift> shifts = new ArrayList<Shift>();
+                // TODO: 16/06/2017 load from database
+                shifts.add(shift);
+                Shift.saveShiftListToJson(shifts);
+                finish();
+            }
+        });
+    }
+
+    private void cancelButtonOnClick() {
+        Button cancelButton = (Button) findViewById(R.id.btn_Cancel);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }
+
