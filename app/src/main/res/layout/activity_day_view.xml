@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.alpha.shift.DayView">
+    tools:context="com.alpha.shift.DayView"
+    android:orientation="vertical"
+    android:weightSum="1">
 
     <com.alamkanak.weekview.WeekView
         android:id="@+id/dayView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="436dp"
         app:eventTextColor="@android:color/white"
         app:textSize="12sp"
         app:hourHeight="30dp"
@@ -24,7 +26,17 @@
         app:dayBackgroundColor="#05000000"
         app:todayBackgroundColor="#1848adff"
         app:headerColumnBackground="#ffffffff"
-        tools:layout_editor_absoluteY="8dp"
-        tools:layout_editor_absoluteX="8dp" />
+        tools:layout_editor_absoluteX="3dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="-3dp"
+        android:layout_weight="0.99" />
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:srcCompat="@android:drawable/ic_input_add"/>
+
+</LinearLayout>

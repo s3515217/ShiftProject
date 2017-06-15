@@ -10,11 +10,10 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
-
+import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-
 import static java.lang.Integer.valueOf;
 
 public class AddShift extends AppCompatActivity {
@@ -57,8 +56,6 @@ public class AddShift extends AppCompatActivity {
                 showDialog(3);
             }
         });
-
-
     }
 
     @Override
@@ -138,10 +135,41 @@ public class AddShift extends AppCompatActivity {
 
                 Shift shift = new Shift(nameText.getText().toString(), start, end);
 
+
+
+                //        Create hard coded data
+                Calendar start1 = Calendar.getInstance();
+                start1.set(2017,5,18,6,0,0);
+                Calendar end1 = Calendar.getInstance();
+                end1.set(2017,5,18,8,0,0);
+                Shift s1 = new Shift("Cafe",start1,end1);
+
+                Calendar start2 = Calendar.getInstance();
+                start2.set(2017,5,17,6,0,0);
+                Calendar end2 = Calendar.getInstance();
+                end2.set(2017,5,17,8,0,0);
+                Shift s2 = new Shift("Library",start2,end2);
+
+                Calendar start3 = Calendar.getInstance();
+                start3.set(2017,5,18,14,0,0);
+                Calendar end3 = Calendar.getInstance();
+                end3.set(2017,5,18,20,0,0);
+                Shift s3 = new Shift("Campus",start3,end3);
+
+//        ArrayList<Shift> shiftArrayList = Shift.loadShiftListFromJson();
+                ArrayList<Shift> shiftArrayList = new ArrayList<Shift>();
+                shiftArrayList.add(s1);
+                shiftArrayList.add(s2);
+                shiftArrayList.add(s3);
+
+
+
+
                 ArrayList<Shift> shifts = new ArrayList<Shift>();
-                // TODO: 16/06/2017 load from database
                 shifts.add(shift);
-                Shift.saveShiftListToJson(shifts);
+//                Shift.saveShiftListToJson(shiftArrayList);
+
+                Toast.makeText(AddShift.this, shift.toString(), Toast.LENGTH_LONG).show();
                 finish();
             }
         });

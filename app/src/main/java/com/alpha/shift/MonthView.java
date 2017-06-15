@@ -8,11 +8,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
-
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
-
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -37,10 +37,37 @@ public class MonthView extends AppCompatActivity {
         compactCalendar = (CompactCalendarView) findViewById(R.id.compactcalendar_view);
         compactCalendar.setUseThreeLetterAbbreviation(true);
 
-        Event ev1 = new Event(Color.RED,  1497484800000L, "Bill's Birthday");
-        compactCalendar.addEvent(ev1);
-        Event ev2 = new Event(Color.RED,  1497484800000L, "Bill's  second Birthday");
-        compactCalendar.addEvent(ev2);
+//        Create hard coded data
+        Calendar start1 = Calendar.getInstance();
+        start1.set(2017,5,18,6,0,0);
+        Calendar end1 = Calendar.getInstance();
+        end1.set(2017,5,18,8,0,0);
+        Shift s1 = new Shift("Cafe",start1,end1);
+
+        Calendar start2 = Calendar.getInstance();
+        start2.set(2017,5,17,6,0,0);
+        Calendar end2 = Calendar.getInstance();
+        end2.set(2017,5,17,8,0,0);
+        Shift s2 = new Shift("Library",start2,end2);
+
+        Calendar start3 = Calendar.getInstance();
+        start3.set(2017,5,18,14,0,0);
+        Calendar end3 = Calendar.getInstance();
+        end3.set(2017,5,18,20,0,0);
+        Shift s3 = new Shift("Campus",start3,end3);
+
+
+//        ArrayList<Shift> shiftArrayList = Shift.loadShiftListFromJson();
+        ArrayList<Shift> shiftArrayList = new ArrayList<Shift>();
+        shiftArrayList.add(s1);
+        shiftArrayList.add(s2);
+        shiftArrayList.add(s3);
+
+        for (int i = 0; i < shiftArrayList.size(); i++) {
+            Shift shift = shiftArrayList.get(i);
+            Event event = new Event(Color.RED,shift.getStartTime().getTimeInMillis(), shift.getName()+" "+shift.getStringStartTime()+"-" +shift.getStringEndTime());
+            compactCalendar.addEvent(event);
+        }
 
         compactCalendar.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
