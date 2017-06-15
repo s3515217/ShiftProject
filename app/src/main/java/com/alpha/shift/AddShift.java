@@ -101,6 +101,10 @@ public class AddShift extends AppCompatActivity {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
+            day_x = dayOfMonth;
+            month_x = month;
+            year_x = year;
+
             Calendar cal = Calendar.getInstance();
             cal.set(year, month, dayOfMonth, 0, 0, 0);
             long longDate = cal.getTimeInMillis();
@@ -137,7 +141,7 @@ public class AddShift extends AppCompatActivity {
 
 
 
-                //        Create hard coded data
+//        Create hard coded data
                 Calendar start1 = Calendar.getInstance();
                 start1.set(2017,5,18,6,0,0);
                 Calendar end1 = Calendar.getInstance();
@@ -163,14 +167,28 @@ public class AddShift extends AppCompatActivity {
                 shiftArrayList.add(s3);
 
 
+                boolean clash = false;
+                for (int i = 0; i < shiftArrayList.size(); i++) {
+                    Shift oldShift = shiftArrayList.get(i);
 
+                    if (!(shift.getStartTime().before(oldShift.getStartTime()) & shift.getEndTime().before(oldShift.getStartTime()) |
+                            shift.getStartTime().after(oldShift.getEndTime()) & shift.getEndTime().after(oldShift.getEndTime()))) {
+                        clash = true;
+                    }
+                }
 
-                ArrayList<Shift> shifts = new ArrayList<Shift>();
-                shifts.add(shift);
-//                Shift.saveShiftListToJson(shiftArrayList);
+                if (clash) {
+                    Toast.makeText(AddShift.this, "Clash", Toast.LENGTH_LONG).show();
+//                    At this point, when the shifts are clashed, we don't create a new shift
+//                    (Because we want the user to change immediately. Not because the program will crash)
+                }
+                else {
+                    shiftArrayList.add(shift);
+//                      Shift.saveShiftListToJson(shiftArrayList);
+                    Toast.makeText(AddShift.this, shift.toString(), Toast.LENGTH_LONG).show();
+                    finish();
+                }
 
-                Toast.makeText(AddShift.this, shift.toString(), Toast.LENGTH_LONG).show();
-                finish();
             }
         });
     }
